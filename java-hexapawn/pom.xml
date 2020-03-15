@@ -29,7 +29,7 @@
         <artifactId>javafx-maven-plugin</artifactId>
         <version>0.0.3</version>
         <configuration>
-          <mainClass>app.App</mainClass>
+          <mainClass>com.github.dudrie.hexapawn.App</mainClass>
         </configuration>
       </plugin>
     </plugins>
