@@ -20,4 +20,14 @@ public class Position {
         return this.spalte;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Position)) {
+            return false;
+        }
+
+        final Position position = (Position) obj;
+        return position.zeile == this.zeile && position.spalte == this.spalte;
+    }
+
 }
