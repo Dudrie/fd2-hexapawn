@@ -1,4 +1,4 @@
 export enum Spielerfarbe {
-  BLAU,
-  ROT,
+  BLAU = 'Blau',
+  ROT = 'Rot',
 }

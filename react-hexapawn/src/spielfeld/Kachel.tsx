@@ -1,14 +1,26 @@
-import React from 'react';
 import { Box } from '@material-ui/core';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Figur as FigurZustand, Position, Spielzustand } from '../store';
 import Figur from './Figur';
-import { Spielerfarbe } from '../store/Spielerfarbe';
+
+export type KachelClickListener = (position: Position, figur?: FigurZustand) => void;
 
 interface Props {
   zeile: number;
   spalte: number;
+  onClick: KachelClickListener;
 }
 
-function Kachel({ zeile, spalte }: Props): JSX.Element {
+function Kachel({ zeile, spalte, onClick }: Props): JSX.Element {
+  const figur = useSelector((state: Spielzustand) =>
+    state.figuren.find(fig => {
+      const { position } = fig;
+
+      return position.zeile === zeile && position.spalte === spalte;
+    })
+  );
+
   return (
     <Box
       border='1px solid #000'
@@ -17,8 +29,9 @@ function Kachel({ zeile, spalte }: Props): JSX.Element {
       display='flex'
       justifyContent='center'
       alignItems='center'
+      onClick={() => onClick({ zeile, spalte }, figur)}
     >
-      <Figur farbe={Math.random() < 0.5 ? Spielerfarbe.BLAU : Spielerfarbe.ROT} />
+      {figur && <Figur farbe={figur.spieler} />}
     </Box>
   );
 }
