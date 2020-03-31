@@ -13,6 +13,7 @@ public class App extends Application {
     public void start(final Stage stage) {
         final Scene scene = new Scene(new Spielbrett());
 
+        stage.setTitle("Java Hexapawn");
         stage.setScene(scene);
         stage.show();
     }
