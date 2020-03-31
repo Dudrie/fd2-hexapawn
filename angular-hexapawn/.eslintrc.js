@@ -22,6 +22,7 @@ module.exports = {
     '@typescript-eslint/ban-types': 'error',
     '@typescript-eslint/class-name-casing': 'error',
     '@typescript-eslint/consistent-type-assertions': 'error',
+    '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/indent': [
       'error',
       2,
@@ -75,7 +76,6 @@ module.exports = {
     'constructor-super': 'error',
     curly: 'error',
     'dot-notation': 'error',
-    'eol-last': 'error',
     eqeqeq: ['error', 'smart'],
     'guard-for-in': 'error',
     'id-blacklist': [

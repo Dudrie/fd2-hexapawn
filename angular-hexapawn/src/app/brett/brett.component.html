@@ -1,0 +1,6 @@
+<div class="brett">
+  <app-kachel
+    *ngFor="let kachelIdx of kacheln"
+    [figur]="figurBeiKoordinaten(indexToPosition(kachelIdx))"
+  ></app-kachel>
+</div>
