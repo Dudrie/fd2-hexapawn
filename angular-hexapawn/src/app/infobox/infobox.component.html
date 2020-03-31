@@ -1,0 +1,11 @@
+<h2 *ngIf="gewinner; else elseBlock">Spieler {{ gewinner!.spielerfarbe }} gewinnt.</h2>
+<ng-template #elseBlock>
+  <h2>Aktueller Spieler: {{ aktuellerSpieler.spielerfarbe }}</h2>
+</ng-template>
+
+<button (click)="neustartClicked()" class="neustart-btn" mat-flat-button color="accent">
+  <ng-container *ngIf="wurdeNeustartAngeklickt; else neustartElse">
+    Wirklich neustarten?
+  </ng-container>
+  <ng-template #neustartElse>Neustart</ng-template>
+</button>

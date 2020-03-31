@@ -26,12 +26,16 @@ export class BrettComponent implements OnInit {
     this.spielService.gewinner$.subscribe(gewinner => (this.gewinner = gewinner));
   }
 
-  isKachelAusgewaehlt(kachel: Kachel): boolean {
+  istKachelAusgewaehlt(kachel: Kachel): boolean {
     if (!kachel.figur) {
       return false;
     }
 
     return this.ausgewaehlteKachel === kachel;
+  }
+
+  istKachelAnklickbar(kachel: Kachel): boolean {
+    return this.aktuellerSpieler.spielerfarbe === kachel.figur?.spielerfarbe;
   }
 
   kachelClick(kachel: Kachel) {

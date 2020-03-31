@@ -19,13 +19,21 @@ export class SpielService {
     this.kacheln$ = new BehaviorSubject<Kachel[]>([]);
     this.ausgewaehlteKachel$ = new BehaviorSubject<Kachel | undefined>(undefined);
     this.gewinner$ = new BehaviorSubject<Spieler | undefined>(undefined);
+    this.aktuellerSpieler$ = new BehaviorSubject<Spieler>(new Spieler(Spielerfarbe.BLAU));
     this.spieler = {
       [Spielerfarbe.BLAU]: new Spieler(Spielerfarbe.BLAU),
       [Spielerfarbe.ROT]: new Spieler(Spielerfarbe.ROT),
     };
 
-    this.aktuellerSpieler$ = new BehaviorSubject<Spieler>(this.spieler[Spielerfarbe.BLAU]);
+    this.zuruecksetzen();
+  }
+
+  zuruecksetzen() {
     this.initKacheln();
+
+    this.gewinner$.next(undefined);
+    this.ausgewaehlteKachel$.next(undefined);
+    this.aktuellerSpieler$.next(this.spieler[Spielerfarbe.BLAU]);
   }
 
   getFigurAnKoordinaten(koordinaten: Koordinaten): Figur | undefined {

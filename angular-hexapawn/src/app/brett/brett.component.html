@@ -1,13 +1,9 @@
-<h4 *ngIf="gewinner; else elseBlock">Spieler {{ gewinner!.spielerfarbe }} gewinnt.</h4>
-<ng-template #elseBlock
-  ><h4>Aktueller Spieler: {{ aktuellerSpieler.spielerfarbe }}</h4></ng-template
->
-
 <div class="brett">
   <ng-container *ngFor="let kachel of kacheln$ | async">
     <app-kachel
       [kachel]="kachel"
-      [hervorheben]="isKachelAusgewaehlt(kachel)"
+      [hervorheben]="istKachelAusgewaehlt(kachel)"
+      [anklickbar]="istKachelAnklickbar(kachel)"
       (click)="kachelClick(kachel)"
     ></app-kachel>
   </ng-container>

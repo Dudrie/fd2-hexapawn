@@ -1,6 +1,14 @@
-div {
+app-infobox {
+  margin-left: 16px;
+}
+
+.root {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
+}
+
+.inhalt {
+  display: flex;
 }

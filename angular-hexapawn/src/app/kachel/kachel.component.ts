@@ -9,6 +9,7 @@ import { Kachel } from '../model/Kachel';
 export class KachelComponent implements OnInit {
   @Input() kachel?: Kachel;
   @Input() hervorheben?: boolean;
+  @Input() anklickbar?: boolean;
 
   constructor() {}
 

@@ -7,9 +7,10 @@ import { AppComponent } from './app.component';
 import { BrettComponent } from './brett/brett.component';
 import { KachelComponent } from './kachel/kachel.component';
 import { SpielfigurComponent } from './spielfigur/spielfigur.component';
+import { InfoboxComponent } from './infobox/infobox.component';
 
 @NgModule({
-  declarations: [AppComponent, BrettComponent, KachelComponent, SpielfigurComponent],
+  declarations: [AppComponent, BrettComponent, KachelComponent, SpielfigurComponent, InfoboxComponent],
   imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, AngularMaterialModule],
   providers: [],
   bootstrap: [AppComponent],
