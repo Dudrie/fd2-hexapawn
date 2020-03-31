@@ -1,5 +1,7 @@
 package hexapawn;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Optional;
 
 import javafx.scene.Group;
@@ -13,25 +15,28 @@ public class Spielbrett extends Pane {
     public static final int KACHEL_LAENGE = 128;
     public static final int KACHELN_PRO_REIHE = 3;
 
-    private final Group kacheln;
+    private final Group kachelGruppe;
     private final Group figuren;
+
+    private final Collection<Kachel> kacheln;
 
     private Optional<Figur> ausgewaehlteFigur;
 
     public Spielbrett() {
         this.setPrefSize(KACHEL_LAENGE * KACHELN_PRO_REIHE, KACHEL_LAENGE * KACHELN_PRO_REIHE);
 
-        this.kacheln = new Group();
+        this.kachelGruppe = new Group();
+        this.kacheln = new HashSet<>();
         this.figuren = new Group();
         this.ausgewaehlteFigur = Optional.empty();
 
         initSpielfeld();
 
-        getChildren().addAll(kacheln, figuren);
+        getChildren().addAll(kachelGruppe, figuren);
     }
 
     private void initSpielfeld() {
-        assert this.kacheln != null;
+        assert this.kachelGruppe != null;
         assert this.figuren != null;
 
         for (int x = 0; x < KACHELN_PRO_REIHE; x++) {
@@ -45,9 +50,21 @@ public class Spielbrett extends Pane {
                 }
 
                 kachel.setOnMouseClicked(e -> {
-                    bewegeFigurZuKachel(kachel);
+                    if (kachel.hatFigur()) {
+                        if (this.ausgewaehlteFigur.isEmpty()) {
+                            waehleFigurAus(kachel.getFigur());
+                        } else if (this.ausgewaehlteFigur.get().equals(kachel.getFigur())) {
+                            waehleFigurAb();
+                        } else {
+                            bewegeFigurZuKachel(kachel);
+                        }
+                    } else if (this.ausgewaehlteFigur.isPresent()) {
+                        bewegeFigurZuKachel(kachel);
+                    }
                 });
-                this.kacheln.getChildren().add(kachel);
+
+                this.kacheln.add(kachel);
+                this.kachelGruppe.getChildren().add(kachel);
             }
         }
     }
@@ -57,6 +74,19 @@ public class Spielbrett extends Pane {
             return;
         }
 
+        final Figur figur = this.ausgewaehlteFigur.get();
+        final Kachel startKachel = getKachelBeiKoordinaten(figur.getKoordinaten());
+        final Bewegung bewegung = new Bewegung(figur, startKachel, kachel);
+
+        if (bewegung.istErlaubt()) {
+            bewegung.ausfuehren();
+
+            if (bewegung.getGeschlageneFigur().isPresent()) {
+                this.figuren.getChildren().remove(bewegung.getGeschlageneFigur().get());
+            }
+
+            waehleFigurAb();
+        }
         // TODO: Implement me.
     }
 
@@ -64,15 +94,6 @@ public class Spielbrett extends Pane {
         final Figur figur = new Figur(kachel.getKoordinaten(), farbe);
 
         kachel.setFigur(figur);
-
-        figur.setOnMouseClicked(e -> {
-            if (this.ausgewaehlteFigur.isEmpty()) {
-                waehleFigurAus(figur);
-            } else if (this.ausgewaehlteFigur.get().equals(figur)) {
-                waehleFigurAb();
-            }
-        });
-
         this.figuren.getChildren().add(figur);
     }
 
@@ -88,5 +109,15 @@ public class Spielbrett extends Pane {
 
         this.ausgewaehlteFigur.get().setAusgewaehlt(false);
         this.ausgewaehlteFigur = Optional.empty();
+    }
+
+    private Kachel getKachelBeiKoordinaten(final Koordinaten koordinaten) {
+        for (final var kachel : this.kacheln) {
+            if (kachel.getKoordinaten().equals(koordinaten)) {
+                return kachel;
+            }
+        }
+
+        throw new RuntimeException("Es existiert an der gegebenen Position keine Kachel.");
     }
 }

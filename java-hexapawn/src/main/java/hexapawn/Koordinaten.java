@@ -20,4 +20,15 @@ public class Koordinaten {
     public int getY() {
         return this.y;
     }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (!(obj instanceof Koordinaten)) {
+            return false;
+        }
+
+        final Koordinaten koords = (Koordinaten) obj;
+
+        return koords.getX() == this.x && koords.getY() == this.y;
+    }
 }

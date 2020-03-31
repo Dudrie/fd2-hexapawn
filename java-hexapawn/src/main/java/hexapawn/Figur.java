@@ -23,6 +23,8 @@ public class Figur extends StackPane {
         this.ausgewaehlt = false;
         this.figur = new Ellipse(getRadius(), getRadius());
 
+        this.setMouseTransparent(true);
+
         initStyle();
         initPosition();
     }
@@ -37,6 +39,9 @@ public class Figur extends StackPane {
 
     public void setKoordinaten(final Koordinaten koordinaten) {
         this.koordinaten = koordinaten;
+
+        final Koordinaten pixel = getKoordinatenZuPixel();
+        relocate(pixel.getX(), pixel.getY());
     }
 
     public boolean isAusgewaehlt() {
