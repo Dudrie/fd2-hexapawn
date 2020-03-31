@@ -5,4 +5,8 @@ export enum Spielerfarbe {
 
 export class Spieler {
   constructor(readonly spielerfarbe: Spielerfarbe) {}
+
+  get richtung(): number {
+    return this.spielerfarbe === Spielerfarbe.BLAU ? -1 : 1;
+  }
 }

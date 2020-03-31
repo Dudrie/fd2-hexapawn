@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Figur } from '../model/Figur';
+import { Kachel } from '../model/Kachel';
 
 @Component({
   selector: 'app-kachel',
@@ -7,7 +7,8 @@ import { Figur } from '../model/Figur';
   styleUrls: ['./kachel.component.scss'],
 })
 export class KachelComponent implements OnInit {
-  @Input() figur?: Figur;
+  @Input() kachel?: Kachel;
+  @Input() hervorheben?: boolean;
 
   constructor() {}
 

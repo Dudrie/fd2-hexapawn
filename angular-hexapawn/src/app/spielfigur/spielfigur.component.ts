@@ -8,12 +8,17 @@ import { Spielerfarbe } from '../model/Spieler';
 })
 export class SpielfigurComponent implements OnInit {
   @Input() farbe!: Spielerfarbe;
+  @Input() hervorheben?: boolean;
 
   constructor() {}
 
   ngOnInit(): void {}
 
   getStyle() {
+    if (this.hervorheben) {
+      return { backgroundColor: 'orange' };
+    }
+
     return this.farbe === Spielerfarbe.BLAU
       ? { backgroundColor: 'blue' }
       : { backgroundColor: 'red' };

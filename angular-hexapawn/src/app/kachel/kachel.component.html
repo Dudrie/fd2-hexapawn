@@ -1,3 +1,7 @@
 <div>
-  <app-spielfigur *ngIf="figur" [farbe]="figur!.spielerfarbe"></app-spielfigur>
+  <app-spielfigur
+    *ngIf="kachel?.figur"
+    [farbe]="kachel?.figur?.spielerfarbe"
+    [hervorheben]="hervorheben"
+  ></app-spielfigur>
 </div>

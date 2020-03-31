@@ -1,4 +1,4 @@
-import { Spielerfarbe } from './Spieler';
+import { Spielerfarbe, Spieler } from './Spieler';
 
 export interface Koordinaten {
   readonly x: number;
@@ -6,10 +6,9 @@ export interface Koordinaten {
 }
 
 export class Figur {
-  constructor(private koordinaten: Koordinaten, public readonly spielerfarbe: Spielerfarbe) {}
+  constructor(readonly id: number, readonly koordinaten: Koordinaten, readonly spieler: Spieler) {}
 
-  isBeiKoordinaten(koordinaten: Koordinaten): boolean {
-    const { x, y } = this.koordinaten;
-    return koordinaten.x === x && koordinaten.y === y;
+  get spielerfarbe(): Spielerfarbe {
+    return this.spieler.spielerfarbe;
   }
 }

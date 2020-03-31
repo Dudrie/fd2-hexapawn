@@ -8,6 +8,7 @@ module.exports = {
   extends: [
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
   ],
   parser: '@typescript-eslint/parser',
@@ -23,18 +24,6 @@ module.exports = {
     '@typescript-eslint/class-name-casing': 'error',
     '@typescript-eslint/consistent-type-assertions': 'error',
     '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/indent': [
-      'error',
-      2,
-      {
-        FunctionDeclaration: {
-          parameters: 'first',
-        },
-        FunctionExpression: {
-          parameters: 'first',
-        },
-      },
-    ],
     '@typescript-eslint/member-delimiter-style': [
       'error',
       {
@@ -48,7 +37,7 @@ module.exports = {
         },
       },
     ],
-    '@typescript-eslint/member-ordering': 'error',
+    '@typescript-eslint/member-ordering': 'warn',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-empty-interface': 'error',
     '@typescript-eslint/no-explicit-any': 'off',
@@ -68,7 +57,6 @@ module.exports = {
       { avoidEscape: true, allowTemplateLiterals: true },
     ],
     '@typescript-eslint/triple-slash-reference': 'error',
-    '@typescript-eslint/type-annotation-spacing': 'error',
     '@typescript-eslint/unified-signatures': 'error',
     'arrow-body-style': 'error',
     camelcase: 'error',
