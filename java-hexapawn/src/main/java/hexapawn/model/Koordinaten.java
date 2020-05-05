@@ -1,10 +1,6 @@
-package hexapawn;
+package hexapawn.model;
 
-/**
- * Koordinaten
- */
 public class Koordinaten {
-
     private final int x;
     private final int y;
 
@@ -22,7 +18,7 @@ public class Koordinaten {
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(Object obj) {
         if (!(obj instanceof Koordinaten)) {
             return false;
         }
