@@ -11,7 +11,7 @@ public class App extends Application {
 
     @Override
     public void start(final Stage stage) {
-        final Scene scene = new Scene(new Spielbrett());
+        final Scene scene = new Scene(new Inhalt());
 
         stage.setTitle("Java Hexapawn");
         stage.setScene(scene);

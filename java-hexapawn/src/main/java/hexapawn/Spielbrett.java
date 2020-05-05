@@ -50,22 +50,26 @@ public class Spielbrett extends Pane {
                 }
 
                 kachel.setOnMouseClicked(e -> {
-                    if (kachel.hatFigur()) {
-                        if (this.ausgewaehlteFigur.isEmpty()) {
-                            waehleFigurAus(kachel.getFigur());
-                        } else if (this.ausgewaehlteFigur.get().equals(kachel.getFigur())) {
-                            waehleFigurAb();
-                        } else {
-                            bewegeFigurZuKachel(kachel);
-                        }
-                    } else if (this.ausgewaehlteFigur.isPresent()) {
-                        bewegeFigurZuKachel(kachel);
-                    }
+                    onKachelClick(kachel);
                 });
 
                 this.kacheln.add(kachel);
                 this.kachelGruppe.getChildren().add(kachel);
             }
+        }
+    }
+
+    private void onKachelClick(final Kachel kachel) {
+        if (kachel.hatFigur()) {
+            if (this.ausgewaehlteFigur.isEmpty()) {
+                waehleFigurAus(kachel.getFigur());
+            } else if (this.ausgewaehlteFigur.get().equals(kachel.getFigur())) {
+                waehleFigurAb();
+            } else {
+                bewegeFigurZuKachel(kachel);
+            }
+        } else if (this.ausgewaehlteFigur.isPresent()) {
+            bewegeFigurZuKachel(kachel);
         }
     }
 
