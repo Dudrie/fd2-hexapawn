@@ -28,6 +28,10 @@ public class Bewegung {
         return this.erlaubt;
     }
 
+    public Kachel getZielKachel() {
+        return this.zielKachel;
+    }
+
     private boolean isErlaubteBewegung() {
         final Koordinaten figurKoordinaten = figur.getKoordinaten();
 

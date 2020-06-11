@@ -1,6 +1,8 @@
 package hexapawn.model;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.function.BinaryOperator;
 
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyListWrapper;
@@ -15,6 +17,8 @@ public class Spielfeld {
     private final ReadOnlyObjectWrapper<Optional<Figur>> ausgewaehlteFigur = new ReadOnlyObjectWrapper<>(
             Optional.empty());
     private final ReadOnlyObjectWrapper<Spielerfarbe> aktuellerSpieler = new ReadOnlyObjectWrapper<>(Spielerfarbe.BLAU);
+    private final ReadOnlyObjectWrapper<Optional<Spielerfarbe>> gewinner = new ReadOnlyObjectWrapper<>(
+            Optional.empty());
 
     public Spielfeld() {
         initSpielfeld();
@@ -32,7 +36,15 @@ public class Spielfeld {
         return this.aktuellerSpieler.getReadOnlyProperty();
     }
 
+    public ReadOnlyObjectProperty<Optional<Spielerfarbe>> getGewinnerProperty() {
+        return this.gewinner.getReadOnlyProperty();
+    }
+
     public void waehleFigurAus(final Figur figur) {
+        if (gewinner.get().isPresent()) {
+            return;
+        }
+
         if (!figur.getSpielerfarbe().equals(this.aktuellerSpieler.get())) {
             return;
         }
@@ -65,6 +77,10 @@ public class Spielfeld {
     }
 
     public void bewegeAuswahlZuZiel(final Kachel kachel) {
+        if (gewinner.get().isPresent()) {
+            return;
+        }
+
         final Optional<Figur> ausgewaehlteFigur = this.ausgewaehlteFigur.get();
 
         if (ausgewaehlteFigur.isEmpty()) {
@@ -75,6 +91,7 @@ public class Spielfeld {
 
         if (bewegung.isErlaubt()) {
             bewegung.ausfuehren();
+            pruefeGewinner(bewegung.getZielKachel());
             wechsleSpieler();
         }
     }
@@ -91,6 +108,41 @@ public class Spielfeld {
         } else {
             this.aktuellerSpieler.set(Spielerfarbe.BLAU);
         }
+    }
+
+    private void pruefeGewinner(final Kachel zielKachel) {
+        final Spielerfarbe aktuellerSpieler = this.aktuellerSpieler.get();
+        final int letzteReihe = 1 + aktuellerSpieler.getRichtung();
+        final List<Kachel> kacheln = this.kacheln.get();
+
+        // Der aktuelle Spieler hat die für ihn letzte Reihe erreicht und gewinnt.
+
+        if (zielKachel.getKoordinaten().getY() == letzteReihe) {
+            gewinner.set(Optional.of(aktuellerSpieler));
+            return;
+        }
+
+        // Der aktuelle Spieler ist der einzige mit Figuren auf dem Feld.
+        if (hatSpielfeldNurFigurenEinerFarbe()) {
+            gewinner.set(Optional.of(aktuellerSpieler));
+            return;
+        }
+
+        // Der Gegner kann keinen Zug mehr durchführen.
+        // TODO: IMPLEMENT ME
+    }
+
+    private boolean hatSpielfeldNurFigurenEinerFarbe() {
+        final List<Kachel> kacheln = this.kacheln.get();
+        final Spielerfarbe aktuellerSpieler = this.aktuellerSpieler.get();
+
+        for (final Kachel kachel : kacheln) {
+            if (kachel.hatFigur() && !kachel.getFigur().get().getSpielerfarbe().equals(aktuellerSpieler)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private Bewegung generiereBewegung(final Kachel zielKachel) {

@@ -7,11 +7,27 @@ import javafx.scene.layout.VBox;
 
 public class Infobox extends VBox {
     private final Spielfeld spielfeld;
+    private final Label gewinnerLabel;
 
     public Infobox(final Spielfeld spielfeld) {
+        this.gewinnerLabel = new Label();
         this.spielfeld = spielfeld;
 
+        initGewinnerLabel();
         initAktuellerSpielerText();
+    }
+
+    private void initGewinnerLabel() {
+        this.gewinnerLabel.setText("");
+        this.getChildren().add(gewinnerLabel);
+
+        spielfeld.getGewinnerProperty().addListener((obs, alt, neu) -> {
+            if (neu.isPresent()) {
+                this.gewinnerLabel.setText("Gewinner: " + neu.get().toString());
+            } else {
+                this.gewinnerLabel.setText("");
+            }
+        });
     }
 
     private void initAktuellerSpielerText() {
