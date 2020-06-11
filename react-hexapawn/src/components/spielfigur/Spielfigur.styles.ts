@@ -12,7 +12,7 @@ export const useStyles = makeStyles<Theme, Props>(() =>
         color = props.farbe === Spielerfarbe.BLAU ? 'blue' : 'red';
       }
 
-      return { color, cursor: props.anklickbar ? 'pointer' : 'default' };
+      return { color, cursor: props.anklickbar ? 'pointer' : 'default', fontSize: 64 };
     },
   })
 );
