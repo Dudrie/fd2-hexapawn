@@ -1,14 +1,12 @@
-import React from 'react';
-import { useSpielService } from '../../spiel-service/Spiel.context';
-import useObservable from '../../helpers/useObservable';
 import { Box } from '@material-ui/core';
-import { Kachel } from '../../model/Kachel';
+import React from 'react';
+import useObservable from '../../helpers/useObservable';
+import { useSpielService } from '../../spiel-service/Spiel.context';
 import KachelAufSpielfeld from '../kachel-auf-spielfeld/KachelAufSpielfeld';
 
 function Brett(): JSX.Element {
   const spielService = useSpielService();
   const kacheln = useObservable(spielService.kacheln$);
-  const aktuellerSpieler = useObservable(spielService.aktuellerSpieler$);
 
   return (
     <Box
@@ -19,7 +17,7 @@ function Brett(): JSX.Element {
       gridTemplateRows='repeat(3, 1fr)'
     >
       {kacheln?.map((kachel, idx) => (
-        <KachelAufSpielfeld key={idx} kachel={kachel} anklickbar={false} hervorheben={false} />
+        <KachelAufSpielfeld key={idx} kachel={kachel} />
       ))}
     </Box>
   );

@@ -8,9 +8,11 @@ function App(): JSX.Element {
   return (
     <SpielProvider>
       <Box display='flex' alignItems='center' justifyContent='center' height='100vh'>
-        <Brett />
+        <Box display='flex'>
+          <Brett />
 
-        <Infobox />
+          <Infobox />
+        </Box>
       </Box>
     </SpielProvider>
   );
