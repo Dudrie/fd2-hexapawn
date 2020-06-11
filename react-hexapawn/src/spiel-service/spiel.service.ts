@@ -1,7 +1,7 @@
 import { BehaviorSubject } from 'rxjs';
 import { Figur, Koordinaten } from '../model/Figur';
-import { Spieler, Spielerfarbe } from '../model/Spieler';
 import { Kachel } from '../model/Kachel';
+import { Spieler, Spielerfarbe } from '../model/Spieler';
 
 export class SpielService {
   readonly kacheln$: BehaviorSubject<Kachel[]>;
@@ -24,7 +24,7 @@ export class SpielService {
     this.zuruecksetzen();
   }
 
-  zuruecksetzen() {
+  zuruecksetzen(): void {
     this.initKacheln();
 
     this.gewinner$.next(undefined);
@@ -38,7 +38,7 @@ export class SpielService {
     return kacheln.find(kachel => kachel.isBeiKoordinaten(koordinaten))?.figur;
   }
 
-  bewegeAusgewaehlteFigurNach(endKachel: Kachel) {
+  bewegeAusgewaehlteFigurNach(endKachel: Kachel): void {
     const kacheln = this.kacheln$.value;
     const startKachel = this.ausgewaehlteKachel$.value;
 
@@ -66,13 +66,13 @@ export class SpielService {
     this.pruefeAufSpielende(endKachel);
   }
 
-  waehleKachelAus(kachel: Kachel) {
+  waehleKachelAus(kachel: Kachel): void {
     if (!this.ausgewaehlteKachel$.value) {
       this.ausgewaehlteKachel$.next(kachel);
     }
   }
 
-  verwerfeKachelauswahl() {
+  verwerfeKachelauswahl(): void {
     if (this.ausgewaehlteKachel$.value) {
       this.ausgewaehlteKachel$.next(undefined);
     }
@@ -102,7 +102,7 @@ export class SpielService {
     return Math.abs(dx) === 1 && dy === spieler.richtung;
   }
 
-  aendereSpieler() {
+  aendereSpieler(): void {
     this.aktuellerSpieler$.next(this.getNaechsterSpieler());
   }
 

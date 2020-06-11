@@ -1,8 +1,8 @@
-import React from 'react';
-import { SpielProvider } from '../spiel-service/Spiel.context';
-import Brett from '../components/brett/Brett';
 import { Box } from '@material-ui/core';
+import React from 'react';
+import Brett from '../components/brett/Brett';
 import Infobox from '../components/infobox/Infobox';
+import { SpielProvider } from '../spiel-service/Spiel.context';
 
 function App(): JSX.Element {
   return (

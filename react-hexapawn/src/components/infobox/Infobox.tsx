@@ -1,8 +1,8 @@
+import { Box, Button, Typography } from '@material-ui/core';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import React, { useState } from 'react';
-import { useSpielService } from '../../spiel-service/Spiel.context';
 import useObservable from '../../helpers/useObservable';
-import { Box, Typography, Button } from '@material-ui/core';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { useSpielService } from '../../spiel-service/Spiel.context';
 
 const useStyles = makeStyles(() =>
   createStyles({

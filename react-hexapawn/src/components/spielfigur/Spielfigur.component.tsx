@@ -1,7 +1,7 @@
 import { Icon } from '@material-ui/core';
 import React from 'react';
-import { useStyles } from './Spielfigur.styles';
 import { Spielerfarbe } from '../../model/Spieler';
+import { useStyles } from './Spielfigur.styles';
 
 export interface Props {
   farbe: Spielerfarbe;

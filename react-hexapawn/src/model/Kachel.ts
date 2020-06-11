@@ -1,4 +1,4 @@
-import { Koordinaten, Figur } from './Figur';
+import { Figur, Koordinaten } from './Figur';
 
 export class Kachel {
   constructor(readonly koordinaten: Koordinaten, readonly figur?: Figur) {}
