@@ -2,7 +2,6 @@ package hexapawn.model;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.BinaryOperator;
 
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyListWrapper;
