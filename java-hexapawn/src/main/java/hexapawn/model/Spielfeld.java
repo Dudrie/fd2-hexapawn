@@ -1,7 +1,9 @@
 package hexapawn.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyListWrapper;
@@ -20,6 +22,10 @@ public class Spielfeld {
             Optional.empty());
 
     public Spielfeld() {
+        initSpielfeld();
+    }
+
+    public void starteSpielNeu() {
         initSpielfeld();
     }
 
@@ -100,12 +106,16 @@ public class Spielfeld {
     }
 
     private void wechsleSpieler() {
+        this.aktuellerSpieler.set(getNaechsterSpieler());
+    }
+
+    private Spielerfarbe getNaechsterSpieler() {
         final Spielerfarbe aktuellerSpieler = this.aktuellerSpieler.get();
 
         if (aktuellerSpieler.equals(Spielerfarbe.BLAU)) {
-            this.aktuellerSpieler.set(Spielerfarbe.ROT);
+            return Spielerfarbe.ROT;
         } else {
-            this.aktuellerSpieler.set(Spielerfarbe.BLAU);
+            return Spielerfarbe.BLAU;
         }
     }
 
@@ -115,7 +125,6 @@ public class Spielfeld {
         final List<Kachel> kacheln = this.kacheln.get();
 
         // Der aktuelle Spieler hat die für ihn letzte Reihe erreicht und gewinnt.
-
         if (zielKachel.getKoordinaten().getY() == letzteReihe) {
             gewinner.set(Optional.of(aktuellerSpieler));
             return;
@@ -128,7 +137,51 @@ public class Spielfeld {
         }
 
         // Der Gegner kann keinen Zug mehr durchführen.
-        // TODO: IMPLEMENT ME
+        final Spielerfarbe gegner = getNaechsterSpieler();
+        final List<Kachel> gegnerischeKacheln = kacheln.stream().filter(kachel -> {
+            final Optional<Figur> figur = kachel.getFigur();
+            return figur.isPresent() && figur.get().getSpielerfarbe().equals(gegner);
+        }).collect(Collectors.toList());
+        final List<Kachel> moeglicheEndkacheln = new ArrayList<>();
+
+        for (final Kachel kachel : gegnerischeKacheln) {
+            final List<Kachel> endKacheln = berechneAlleValidenBewegungen(kachel);
+            moeglicheEndkacheln.addAll(endKacheln);
+        }
+
+        if (moeglicheEndkacheln.size() == 0) {
+            this.gewinner.setValue(Optional.of(aktuellerSpieler));
+        }
+    }
+
+    private List<Kachel> berechneAlleValidenBewegungen(final Kachel startKachel) {
+        final Optional<Figur> figur = startKachel.getFigur();
+        final ArrayList<Kachel> kacheln = new ArrayList<>();
+
+        if (figur.isEmpty()) {
+            return kacheln;
+        }
+
+        final Spielerfarbe spieler = figur.get().getSpielerfarbe();
+        final int y = startKachel.getKoordinaten().getY() + spieler.getRichtung();
+
+        for (int x = 0; x < 3; x++) {
+            final Optional<Kachel> zielKachel = getKachelnBeiKoordinaten(new Koordinaten(x, y));
+
+            if (zielKachel.isPresent()) {
+                final Bewegung bewegung = new Bewegung(this, startKachel.getFigur().get(), zielKachel.get());
+
+                if (bewegung.isErlaubt()) {
+                    kacheln.add(zielKachel.get());
+                }
+            }
+        }
+
+        return kacheln;
+    }
+
+    private Optional<Kachel> getKachelnBeiKoordinaten(final Koordinaten koordinaten) {
+        return kacheln.stream().filter(kachel -> kachel.getKoordinaten().equals(koordinaten)).findAny();
     }
 
     private boolean hatSpielfeldNurFigurenEinerFarbe() {
@@ -153,8 +206,7 @@ public class Spielfeld {
     }
 
     private void initSpielfeld() {
-        this.kacheln.clear();
-        this.ausgewaehlteFigur.set(Optional.empty());
+        final List<Kachel> kacheln = new ArrayList<>();
 
         for (int x = 0; x < KACHELN_PRO_REIHE; x++) {
             for (int y = 0; y < KACHELN_PRO_REIHE; y++) {
@@ -166,9 +218,14 @@ public class Spielfeld {
                     stelleFigurAufKachel(kachel, Spielerfarbe.BLAU);
                 }
 
-                this.kacheln.add(kachel);
+                kacheln.add(kachel);
             }
         }
+
+        this.kacheln.set(FXCollections.observableArrayList(kacheln));
+        this.ausgewaehlteFigur.set(Optional.empty());
+        this.aktuellerSpieler.set(Spielerfarbe.BLAU);
+        this.gewinner.set(Optional.empty());
     }
 
     private void stelleFigurAufKachel(final Kachel kachel, final Spielerfarbe farbe) {
