@@ -5,11 +5,11 @@ import { Spieler } from '../model/Spieler';
 import { SpielService } from '../spiel-service/spiel.service';
 
 @Component({
-  selector: 'app-brett',
-  templateUrl: './brett.component.html',
-  styleUrls: ['./brett.component.scss'],
+  selector: 'app-spielfeld',
+  templateUrl: './spielfeld.component.html',
+  styleUrls: ['./spielfeld.component.scss'],
 })
-export class BrettComponent implements OnInit {
+export class SpielfeldComponent implements OnInit {
   readonly kacheln$: BehaviorSubject<Kachel[]>;
   gewinner?: Spieler;
   aktuellerSpieler!: Spieler;
