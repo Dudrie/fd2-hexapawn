@@ -43,7 +43,12 @@ export class SpielService {
     const startKachel = this.ausgewaehlteKachel$.value;
 
     if (!startKachel?.figur) {
-      // TODO: Error?!
+      throw new Error(
+        'Es wurde keine Kachel mit einer Figur ausgewählt. Die Bewegung kann nicht durchgeführt werden.'
+      );
+    }
+
+    if (!this.isValideBewegung(startKachel, endKachel)) {
       return;
     }
 
@@ -63,7 +68,14 @@ export class SpielService {
       })
     );
 
-    this.pruefeAufSpielende(endKachel);
+    const isSpielende = this.isAktuellerSpielerGewinner(endKachel);
+
+    if (isSpielende) {
+      this.gewinner$.next(this.aktuellerSpieler$.value);
+    } else {
+      this.verwerfeKachelauswahl();
+      this.aendereSpieler();
+    }
   }
 
   waehleKachelAus(kachel: Kachel): void {
@@ -78,8 +90,8 @@ export class SpielService {
     }
   }
 
-  isValideBewegung(startKachel: Kachel, endKachel: Kachel): boolean {
-    if (!this.istKoordinatenImSpielfeld(endKachel.koordinaten)) {
+  private isValideBewegung(startKachel: Kachel, endKachel: Kachel): boolean {
+    if (!this.isKoordinatenImSpielfeld(endKachel.koordinaten)) {
       return false;
     }
 
@@ -102,11 +114,11 @@ export class SpielService {
     return Math.abs(dx) === 1 && dy === spieler.richtung;
   }
 
-  aendereSpieler(): void {
+  private aendereSpieler(): void {
     this.aktuellerSpieler$.next(this.getNaechsterSpieler());
   }
 
-  private istKoordinatenImSpielfeld({ x, y }: Koordinaten): boolean {
+  private isKoordinatenImSpielfeld({ x, y }: Koordinaten): boolean {
     return x >= 0 && x <= 2 && y >= 0 && y <= 2;
   }
 
@@ -118,25 +130,28 @@ export class SpielService {
     }
   }
 
-  private pruefeAufSpielende(endKachel: Kachel) {
+  private isAktuellerSpielerGewinner(endKachel: Kachel): boolean {
     const spieler = this.aktuellerSpieler$.value;
     const letzteReihe = 1 + spieler.richtung;
     const kacheln = this.kacheln$.value;
 
     // Der aktuelle Spieler hat die für ihn letzte Reihe erreicht und gewinnt.
     if (endKachel.koordinaten.y === letzteReihe) {
-      this.gewinner$.next(spieler);
-      return;
+      return true;
     }
 
     // Der aktuelle Spieler ist der einzige mit Figuren auf dem Feld.
-    kacheln.reduce((bisherNurEineFarbe, kachel) => {
+    const einzigerSpielerMitFiguren = kacheln.reduce((bisherNurEineFarbe, kachel) => {
       if (kachel.figur) {
         return bisherNurEineFarbe && kachel.figur.spielerfarbe === spieler.spielerfarbe;
       }
 
       return bisherNurEineFarbe;
     }, true);
+
+    if (einzigerSpielerMitFiguren) {
+      return true;
+    }
 
     // Der Gegner kann keinen Zug mehr durchführen.
     const gegner = this.getNaechsterSpieler();
@@ -150,9 +165,7 @@ export class SpielService {
       moeglicheEndkacheln.push(...endkacheln);
     });
 
-    if (moeglicheEndkacheln.length === 0) {
-      this.gewinner$.next(spieler);
-    }
+    return moeglicheEndkacheln.length === 0;
   }
 
   private berechneAlleValidenBewegungen(startKachel: Kachel): Kachel[] {

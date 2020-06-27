@@ -26,8 +26,6 @@ function KachelAufSpielfeld({ kachel }: Props): JSX.Element {
 
   const fuehreZugAus = (zielKachel: Kachel) => {
     spielService.bewegeAusgewaehlteFigurNach(zielKachel);
-    spielService.verwerfeKachelauswahl();
-    spielService.aendereSpieler();
   };
 
   const handleKachelClick = () => {
@@ -38,7 +36,7 @@ function KachelAufSpielfeld({ kachel }: Props): JSX.Element {
     if (!!ausgewaehlteKachel) {
       if (kachel === ausgewaehlteKachel) {
         spielService.verwerfeKachelauswahl();
-      } else if (spielService.isValideBewegung(ausgewaehlteKachel, kachel)) {
+      } else {
         fuehreZugAus(kachel);
       }
     } else {
