@@ -7,6 +7,7 @@ import { SpielfeldComponent } from './spielfeld/spielfeld.component';
 import { KachelComponent } from './kachel/kachel.component';
 import { SpielfigurComponent } from './spielfigur/spielfigur.component';
 import { InfoboxComponent } from './infobox/infobox.component';
+import { ObservableZaehlerComponent } from './observable-zaehler/observable-zaehler.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { InfoboxComponent } from './infobox/infobox.component';
     KachelComponent,
     SpielfigurComponent,
     InfoboxComponent,
+    ObservableZaehlerComponent,
   ],
   imports: [BrowserModule, BrowserAnimationsModule, AngularMaterialModule],
   providers: [],
