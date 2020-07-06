@@ -33,7 +33,7 @@ public class Spielbrett extends Pane {
         this.spielfeldKacheln.getChildren().clear();
 
         kacheln.forEach(kachel -> {
-            final SpielbrettKachel spielbrettKachel = new SpielbrettKachel(kachel, spielfeld);
+            final KachelAufSpielbrett spielbrettKachel = new KachelAufSpielbrett(kachel, spielfeld);
 
             this.spielfeldKacheln.getChildren().add(spielbrettKachel);
         });

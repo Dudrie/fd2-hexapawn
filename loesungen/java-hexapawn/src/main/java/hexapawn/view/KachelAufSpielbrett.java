@@ -18,11 +18,11 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
-public class SpielbrettKachel extends StackPane {
+public class KachelAufSpielbrett extends StackPane {
     private final Kachel kachel;
     private final SpielService spielfeld;
 
-    public SpielbrettKachel(final Kachel kachel, final SpielService spielfeld) {
+    public KachelAufSpielbrett(final Kachel kachel, final SpielService spielfeld) {
         super();
 
         this.kachel = kachel;
