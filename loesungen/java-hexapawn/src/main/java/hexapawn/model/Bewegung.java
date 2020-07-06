@@ -1,13 +1,15 @@
 package hexapawn.model;
 
+import hexapawn.service.SpielService;
+
 public class Bewegung {
-    private final Spielfeld spielfeld;
+    private final SpielService spielfeld;
     private final Figur figur;
     private final Kachel zielKachel;
 
     private boolean erlaubt;
 
-    public Bewegung(final Spielfeld spielfeld, final Figur figur, final Kachel zielKachel) {
+    public Bewegung(final SpielService spielfeld, final Figur figur, final Kachel zielKachel) {
         this.spielfeld = spielfeld;
         this.figur = figur;
         this.zielKachel = zielKachel;

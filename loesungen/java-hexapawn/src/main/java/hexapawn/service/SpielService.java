@@ -1,17 +1,22 @@
-package hexapawn.model;
+package hexapawn.service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import hexapawn.model.Bewegung;
+import hexapawn.model.Figur;
+import hexapawn.model.Kachel;
+import hexapawn.model.Koordinaten;
+import hexapawn.model.Spielerfarbe;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 
-public class Spielfeld {
+public class SpielService {
     public static final int KACHELN_PRO_REIHE = 3;
 
     private final ReadOnlyListWrapper<Kachel> kacheln = new ReadOnlyListWrapper<>(FXCollections.observableArrayList());
@@ -21,7 +26,7 @@ public class Spielfeld {
     private final ReadOnlyObjectWrapper<Optional<Spielerfarbe>> gewinner = new ReadOnlyObjectWrapper<>(
             Optional.empty());
 
-    public Spielfeld() {
+    public SpielService() {
         initSpielfeld();
     }
 

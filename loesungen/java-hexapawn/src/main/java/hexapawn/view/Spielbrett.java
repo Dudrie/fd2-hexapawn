@@ -1,11 +1,11 @@
 package hexapawn.view;
 
-import static hexapawn.model.Spielfeld.KACHELN_PRO_REIHE;
+import static hexapawn.service.SpielService.KACHELN_PRO_REIHE;
 
 import java.util.List;
 
 import hexapawn.model.Kachel;
-import hexapawn.model.Spielfeld;
+import hexapawn.service.SpielService;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 
@@ -13,9 +13,9 @@ public class Spielbrett extends Pane {
     public static final int KACHEL_LAENGE = 128;
 
     private final Group spielfeldKacheln;
-    private final Spielfeld spielfeld;
+    private final SpielService spielfeld;
 
-    public Spielbrett(final Spielfeld spielfeld) {
+    public Spielbrett(final SpielService spielfeld) {
         super();
 
         this.spielfeld = spielfeld;

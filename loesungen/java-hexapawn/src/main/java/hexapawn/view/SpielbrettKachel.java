@@ -7,7 +7,7 @@ import java.util.Optional;
 import hexapawn.model.Figur;
 import hexapawn.model.Kachel;
 import hexapawn.model.Koordinaten;
-import hexapawn.model.Spielfeld;
+import hexapawn.service.SpielService;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Border;
@@ -20,9 +20,9 @@ import javafx.scene.paint.Color;
 
 public class SpielbrettKachel extends StackPane {
     private final Kachel kachel;
-    private final Spielfeld spielfeld;
+    private final SpielService spielfeld;
 
-    public SpielbrettKachel(final Kachel kachel, final Spielfeld spielfeld) {
+    public SpielbrettKachel(final Kachel kachel, final SpielService spielfeld) {
         super();
 
         this.kachel = kachel;
@@ -66,7 +66,7 @@ public class SpielbrettKachel extends StackPane {
         this.getChildren().clear();
 
         if (figur.isPresent()) {
-            this.getChildren().add(new SpielbrettFigur(figur.get()));
+            this.getChildren().add(new Spielfigur(figur.get()));
         }
     }
 

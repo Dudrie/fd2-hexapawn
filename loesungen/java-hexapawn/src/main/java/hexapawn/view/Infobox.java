@@ -1,17 +1,17 @@
 package hexapawn.view;
 
-import hexapawn.model.Spielfeld;
+import hexapawn.service.SpielService;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class Infobox extends VBox {
-    private final Spielfeld spielfeld;
+    private final SpielService spielfeld;
     private final Label gewinnerLabel;
     private final HBox aktuellerSpielerBox;
 
-    public Infobox(final Spielfeld spielfeld) {
+    public Infobox(final SpielService spielfeld) {
         this.gewinnerLabel = new Label();
         this.aktuellerSpielerBox = new HBox();
         this.spielfeld = spielfeld;

@@ -8,11 +8,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 
-public class SpielbrettFigur extends StackPane {
+public class Spielfigur extends StackPane {
     private final Ellipse kreis;
     private final Figur figur;
 
-    public SpielbrettFigur(final Figur figur) {
+    public Spielfigur(final Figur figur) {
         super();
 
         this.figur = figur;
