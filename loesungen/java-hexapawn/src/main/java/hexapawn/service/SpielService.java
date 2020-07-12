@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import hexapawn.model.Bewegung;
 import hexapawn.model.Figur;
 import hexapawn.model.Kachel;
 import hexapawn.model.Koordinaten;
@@ -97,11 +96,11 @@ public class SpielService {
             return;
         }
 
-        final Bewegung bewegung = generiereBewegung(kachel);
+        final boolean isErlaubteBewegung = isValideBewegung(ausgewaehlteFigur.get(), kachel);
 
-        if (bewegung.isErlaubt()) {
-            bewegung.ausfuehren();
-            pruefeGewinner(bewegung.getZielKachel());
+        if (isErlaubteBewegung) {
+            bewegeFigurZuKachel(ausgewaehlteFigur.get(), kachel);
+            pruefeGewinner(kachel);
             wechsleSpieler();
         }
     }
@@ -174,9 +173,10 @@ public class SpielService {
             final Optional<Kachel> zielKachel = getKachelnBeiKoordinaten(new Koordinaten(x, y));
 
             if (zielKachel.isPresent()) {
-                final Bewegung bewegung = new Bewegung(this, startKachel.getFigur().get(), zielKachel.get());
+                final boolean isErlaubteBewegung = this.isValideBewegung(startKachel.getFigur().get(),
+                        zielKachel.get());
 
-                if (bewegung.isErlaubt()) {
+                if (isErlaubteBewegung) {
                     kacheln.add(zielKachel.get());
                 }
             }
@@ -202,12 +202,34 @@ public class SpielService {
         return true;
     }
 
-    private Bewegung generiereBewegung(final Kachel zielKachel) {
-        assert this.isEineFigurAusgewaehlt();
+    private boolean isValideBewegung(final Figur figurStartkachel, final Kachel zielKachel) {
+        final Koordinaten figurKoordinaten = figurStartkachel.getKoordinaten();
 
-        final Figur figur = this.getAusgewaehlteFigur().get().get();
+        final int dx = zielKachel.getKoordinaten().getX() - figurKoordinaten.getX();
+        final int dy = zielKachel.getKoordinaten().getY() - figurKoordinaten.getY();
 
-        return new Bewegung(this, figur, zielKachel);
+        if (hatZielkachelFigurAndererFarbe(zielKachel, figurStartkachel.getSpielerfarbe())) {
+            return Math.abs(dx) == 1 && dy == figurStartkachel.getSpielerfarbe().getRichtung();
+        } else if (!zielKachel.hatFigur()) {
+            return dx == 0 && dy == figurStartkachel.getSpielerfarbe().getRichtung();
+        } else {
+            return false;
+        }
+    }
+
+    private void bewegeFigurZuKachel(final Figur figur, final Kachel zielKachel) {
+        figur.setKachel(zielKachel);
+        waehleFigurAb();
+    }
+
+    private boolean hatZielkachelFigurAndererFarbe(final Kachel zielKachel, final Spielerfarbe spielerfarbe) {
+        if (!zielKachel.hatFigur()) {
+            return false;
+        }
+
+        final Figur zielFigur = zielKachel.getFigur().get();
+
+        return !zielFigur.getSpielerfarbe().equals(spielerfarbe);
     }
 
     private void initSpielfeld() {
