@@ -13,10 +13,10 @@ import javafx.stage.Stage;
  * JavaFX App
  */
 public class Zaehler extends Application {
+    private final ReadOnlyIntegerWrapper zaehlerstand = new ReadOnlyIntegerWrapper(0);
 
     @Override
     public void start(final Stage stage) {
-        final ReadOnlyIntegerWrapper zaehlerstand = new ReadOnlyIntegerWrapper(0);
         final Label zaehlerstandText = new Label();
         final Button erhoeheButton = new Button("+");
         final Button vermindereButton = new Button("-");
